@@ -1,18 +1,15 @@
-import { PrismaClient } from './generated/prisma/client'
+import { PrismaClient } from "./generated/prisma/client/client.js";
 
-const prismaClientSingleton = () => {
-  return new PrismaClient({
-    accelerateUrl: process.env.ACCELERATE_URL!,
-    log: ['error'],
-  })
+declare global {
+  var prisma: PrismaClient | undefined;
 }
 
-declare const globalThis: {
-  prismaGlobal: ReturnType<typeof prismaClientSingleton>;
-} & typeof global;
+export const prisma =
+  global.prisma ||
+  new PrismaClient({
+    accelerateUrl: process.env.DATABASE_URL as string,
+  });
 
-const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
-
-export default prisma
-
-if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma
+if (process.env.NODE_ENV !== "production") {
+  global.prisma = prisma;
+}
