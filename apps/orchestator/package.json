@@ -1,20 +1,12 @@
 {
-  "name": "db",
+  "name": "orchestator",
   "module": "index.ts",
   "type": "module",
   "private": true,
-  "main": "./index.ts",
-  "exports": {
-    ".": "./index.ts"
-  },
   "devDependencies": {
-    "@prisma/client": "^7.2.0",
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
-  },
-  "dependencies": {
-    "prisma": "^7.2.0"
   }
 }
