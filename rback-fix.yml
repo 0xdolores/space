@@ -1,0 +1,30 @@
+# rbac-fix.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: playground-creator
+  namespace: default
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["create", "get", "update", "patch", "delete", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["create", "get", "update", "patch", "delete", "list", "watch"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses"]
+    verbs: ["create", "get", "update", "patch", "delete", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: minikube-playground-creator-binding
+  namespace: default
+subjects:
+  - kind: User
+    name: minikube
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: playground-creator
+  apiGroup: rbac.authorization.k8s.io
